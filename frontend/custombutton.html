@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice</title>
+  <style>
+    #custom-button {
+      padding: 10px;
+      color: white;
+      background: #009578;
+      border: solid 3px grey;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #custom-button:hover {
+      background: #00b28f;
+    }
+
+    #custom-text {
+      color: #aaa;
+      border: 2px solid #00b28f;
+    }
+  </style>
+</head>
+<body>
+  <input type="file" id="real-file" hidden="hidden">
+  <button type="button" id="custom-button">Choose a file</button>
+  <span id="custom-text">No file chosen, yet.</span>
+  <script type="text/javascript">
+    const realFileBtn = document.getElementById("real-file");
+    const customBtn = document.getElementById("custom-button");
+    const customTxt = document.getElementById("custom-text");
+
+    customBtn.addEventListener("click", function() {
+      realFileBtn.click();
+    });
+
+    realFileBtn.addEventListener("change", function() {   // the value of the realFileBtn is the path of the file
+      if (realFileBtn.value) {
+        customTxt.innerHTML = realFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+      } else {
+        customTxt.innerHTML = "No file chosen yet!";
+      }
+    })
+  </script>
+</body>
+</html>
