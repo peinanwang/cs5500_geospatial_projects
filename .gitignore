@@ -1,4 +1,5 @@
 .DS_Store
 LAS_processing/__pycache__
 LAS_processing/sample_data.las
+.ipynb_checkpoints
 
