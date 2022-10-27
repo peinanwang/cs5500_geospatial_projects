@@ -27,7 +27,7 @@ nav ul li a {
 
 body {
 	font-family: arial;
-	margin: 0px;
+	/* margin: 0px; */
 }
 
 .row {
@@ -42,6 +42,17 @@ body {
 	margin: 0.5%;
 	padding: 10px 0.5%;
 	width: 31%;
+}
+
+#top {
+	border-style: solid;
+	border-width: 5px;
+}
+
+.upload_submit_render {
+	border-style: solid;
+	border-width: 5px;
+	margin: 5px;
 }
 
 .container_googlemap {
