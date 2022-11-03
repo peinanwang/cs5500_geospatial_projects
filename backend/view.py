@@ -2,15 +2,14 @@ from flask import Flask, render_template
 from markupsafe import escape
 import json
 import os
-import frontend
 import sys
 
-filepath = '/Users/glenn_hyh/Desktop/CS5500 Found of Software Engineering/cs5500_geospatial_projects/frontend/style'
-app = flask.Flask(__name__)
+
+app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template(filepath + '/index.html')
+    return render_template('/index.html')
 
 '''
 @app.route('/')
