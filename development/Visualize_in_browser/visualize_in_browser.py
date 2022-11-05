@@ -4,10 +4,10 @@ import numpy as np
 import constant_variables
 
 
-def visualize_in_browser():
+def visualize_in_browser(filename):
     o3d.visualization.webrtc_server.enable_webrtc()
 
-    las = laspy.read("sample_data.las")
+    las = laspy.read('./development/static/files/' + filename)
     
     point_data = np.stack([las.X, las.Y, las.Z, las.classification], axis=0).transpose(1, 0)
     

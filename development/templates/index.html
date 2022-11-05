@@ -40,15 +40,22 @@
 		<div class="upload_submit_render">
 			<span>
 				Click on the "Choose File" to upload a LAS file:
-				<input 
-				type="file"
-				id="files"
-				name="file"
-				accept=".las"
-				/>
+
+				<form method="POST" action="" enctype="multipart/form-data">
+					<!-- <input
+					type="file"
+					id="files"
+					name="file"
+					accept=".las"
+					/>
+					<input type="submit" /> -->
+					{{form.hidden_tag()}}
+					{{form.file()}}
+					{{form.submit()}}
+				</form>
 			</span>
 
-			<button id="render">Render</button><br>
+			<input type="button" onclick="location.href='https://localhost:8888';" value="Rander" />
 		</div>
 
 		<a href="https://peinanwang.github.io/Geospatial_Project_Blog/">Visit our Project Blog!</a><br>
