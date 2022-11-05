@@ -4,6 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
 from markupsafe import escape
+from Visualize_in_browser.visualize_in_browser import visualize_in_browser
 import os
 import json
 import sys
@@ -28,6 +29,7 @@ def home():
     if form.validate_on_submit():
         file = form.file.data
         file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
+        visualize_in_browser(file.filename)
     return render_template('/index.html', form=form)
 
 '''
@@ -73,7 +75,6 @@ def not_found(e):
 
 # This starts the flask app configured to listen on port 900
 if __name__ == "__main__":
-
     port = int(os.environ.get('PORT', 5500))
     app.run(debug=True, host='0.0.0.0', port=port)
 
@@ -81,8 +82,3 @@ if __name__ == "__main__":
 # curl -X GET http://localhost:800/api/post/42
 # docker stop $(docker ps -a -q) && docker image build -t flask_docker . && docker run -p 5500:5500 -d flask_docker
 
-
-    app.run(debug=True, host='0.0.0.0', port=port)
-
-
-# curl -X GET http://localhost:800/api/post/42
