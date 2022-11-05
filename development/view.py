@@ -1,15 +1,4 @@
-from flask import Flask, render_template
-from markupsafe import escape
-import json
-import os
-import sys
 
-
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return render_template('/index.html')
 
 '''
 @app.route('/')
@@ -44,9 +33,8 @@ def not_found(e):
 
 # This starts the flask app configured to listen on port 900
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 900))
+
     app.run(debug=True, host='0.0.0.0', port=port)
 
 
 # curl -X GET http://localhost:800/api/post/42
-# docker stop $(docker ps -a -q) && docker image build -t flask_docker . && docker run -p 900:900 -d flask_docker
