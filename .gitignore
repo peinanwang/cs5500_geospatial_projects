@@ -2,4 +2,5 @@
 LAS_processing/__pycache__
 LAS_processing/sample_data.las
 .ipynb_checkpoints
-
+Visualize_in_browser/sample_data.las
+frontend/.DS_Store
