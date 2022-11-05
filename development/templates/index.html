@@ -40,12 +40,18 @@
 		<div class="upload_submit_render">
 			<span>
 				Click on the "Choose File" to upload a LAS file:
-				<input 
-				type="file"
-				id="files"
-				name="file"
-				accept=".las"
-				/>
+				<form method="POST" action="" enctype="multipart/form-data">
+					<!-- <input
+					type="file"
+					id="files"
+					name="file"
+					accept=".las"
+					/>
+					<input type="submit" /> -->
+					{{form.hidden_tag()}}
+					{{form.file()}}
+					{{form.submit()}}
+				</form>
 			</span>
 
 			<button id="render">Render</button><br>
