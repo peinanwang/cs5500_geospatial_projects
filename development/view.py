@@ -1,4 +1,44 @@
 
+from flask import Flask, render_template, flash, request, redirect, url_for
+from flask_wtf import FlaskForm
+from wtforms import FileField, SubmitField
+from werkzeug.utils import secure_filename
+from markupsafe import escape
+import os
+import json
+import sys
+
+
+UPLOAD_FOLDER = '/path/to/the/uploads'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'supersecretkey'
+app.config['UPLOAD_FOLDER'] = 'static/files'
+
+class UploadFileForm(FlaskForm):
+    file = FileField("File")
+    submit = SubmitField("Submit")
+
+
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+    form = UploadFileForm()
+    if form.validate_on_submit():
+        file = form.file.data
+        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
+    return render_template('/index.html', form=form)
+
+'''
+@app.route('/', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save(secure_filename(f.filename))
+        return render_template('/index.html')
+'''
+
 
 '''
 @app.route('/')
@@ -33,6 +73,14 @@ def not_found(e):
 
 # This starts the flask app configured to listen on port 900
 if __name__ == "__main__":
+
+    port = int(os.environ.get('PORT', 5500))
+    app.run(debug=True, host='0.0.0.0', port=port)
+
+
+# curl -X GET http://localhost:800/api/post/42
+# docker stop $(docker ps -a -q) && docker image build -t flask_docker . && docker run -p 5500:5500 -d flask_docker
+
 
     app.run(debug=True, host='0.0.0.0', port=port)
 
