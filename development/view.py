@@ -81,3 +81,4 @@ if __name__ == "__main__":
 
 # curl -X GET http://localhost:800/api/post/42
 # docker stop $(docker ps -a -q) && docker image build -t flask_docker . && docker run -p 5500:5500 -d flask_docker
+
