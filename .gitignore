@@ -4,3 +4,6 @@ LAS_processing/sample_data.las
 .ipynb_checkpoints
 Visualize_in_browser/sample_data.las
 frontend/.DS_Store
+development/sample_data.las
+development/static/files/sample_data.las
+development/Visualize_in_browser/sample_data.las
