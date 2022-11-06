@@ -5,6 +5,8 @@ from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
 from markupsafe import escape
 from Visualize_in_browser.visualize_in_browser import visualize_in_browser
+from pathlib import Path
+import time
 import os
 import json
 import sys
@@ -29,7 +31,17 @@ def home():
     if form.validate_on_submit():
         file = form.file.data
         file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
+        las_file = Path("/Users/peinanwang/CS5500_Project/cs5500_geospatial_projects/development/static/files/" + file.filename)
+        '''
+        while True:
+            if las_file.is_file():
+                break
+        '''
+        time.sleep(60)
+        print(file.filename)
         visualize_in_browser(file.filename)
+            
+                
     return render_template('/index.html', form=form)
 
 '''
