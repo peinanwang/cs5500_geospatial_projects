@@ -1,0 +1,39 @@
+<page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>文件上传 原生ajax上传</title>
+<style type="text/css">
+.container{
+    width: 200px;
+    height: 20px;
+    background-color: gray;
+}
+#progress{
+    height: 20px;
+    background-color: orange;
+    display: inline-block;
+}
+    
+</style>
+</head>
+<body>
+    <form action="${pageContext.request.contextPath }/upload"
+        enctype="multipart/form-data" method="post">
+         上传文件1: <input type="file" name="file1" id="file"><br /> 
+         <div class='container'>
+             <span id="progress"></span>
+         </div>
+    </form>
+    <br>
+    <button onclick="fileSelected()">文件信息</button><button onclick="uploadFile()">确认上传</button>
+    <div id="info">
+        <div id="fileName"></div>
+        <div id="fileSize"></div>
+        <div id="fileType"></div>
+    </div>
+    <div id="result"></div>
+    <script type="text/javascript" src="/js/progressbar.js"></script>
+</body>
+</html>
