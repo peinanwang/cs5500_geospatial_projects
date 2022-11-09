@@ -1,6 +1,7 @@
 import open3d as o3d
 import laspy
 import numpy as np
+import sys
 
 '''
 Detail for LAS classification code can be found at:
@@ -58,59 +59,58 @@ UNNATURAL_STRUCTURES = [6, 11, 17]
 
 RGB = 255
 
+def readLas(file_path):
+	las = laspy.read(file_path)
+	return np.stack([las.X, las.Y, las.Z, las.classification], axis=0).transpose(1, 0)
+    
+
+def create_classification_matrices(point_data):
+    
+    # Initialize a list of 19 elements; 
+    # Each element is an empty matrix(list)
+    # and will be used to store point cloud data of one classification
+    point_cloud_matrices = []
+    for key in LAS_CLASSIFICATION:
+        point_cloud_matrices.append([])
+
+    for point in point_data:
+        i = point[3] # the classification code (0 - 18)
+        
+        # add an array of XYZ coordinates to the i-th matrix 
+        point_cloud_matrices[i].append([point[0], point[1], point[2]])
+        
+    return point_cloud_matrices
 
 
-def visualize_in_browser(filename):
+def prepare_geometry(point_cloud_matrices):
+    
+    # Initialize an empty list for open3d geometry objects 
+    geom_list = []
+    
+    # Assign color value each geometry object and add it to the list
+    for i in range(len(point_cloud_matrices)):
+        
+        geom = o3d.geometry.PointCloud()
+        
+        geom.points = o3d.utility.Vector3dVector(point_cloud_matrices[i])
+        
+        color = CLASSIFICATION_COLORS[LAS_CLASSIFICATION[i]]
+        
+        geom.paint_uniform_color([color[0]/RGB, 
+                                  color[1]/RGB, 
+                                  color[2]/RGB])
+        
+        geom_list.append(geom)
+    
+    return geom_list
+
+
+def visualize_in_browser(file_path):
     o3d.visualization.webrtc_server.enable_webrtc()
+    geom_list = prepare_geometry(create_classification_matrices(readLas(file_path)))
+    o3d.visualization.draw(geom_list)
 
-    las = laspy.read('./static/files/' + filename)
-    #las = laspy.read(filename)
-    
-    point_data = np.stack([las.X, las.Y, las.Z, las.classification], axis=0).transpose(1, 0)
-    
-    point_coordinates = []
-    point_colors = []
-    
-    for i in range(len(point_data)):
-        
-        x = point_data[i][0]
-        y = point_data[i][1]
-        z = point_data[i][2]
-        classification = point_data[i][3]
-        
-        feature_type = LAS_CLASSIFICATION[classification]
-        color = CLASSIFICATION_COLORS[feature_type]
-        
-        point_colors.append([color[0]/RGB, 
-                             color[1]/RGB, 
-                             color[2]/RGB])
-        
-        point_coordinates.append([x, y, z])
-    
-    
-    
-    ############
-    
-    print("\n")
-    print(f"number of points: {len(point_data)}")
-    print(f"number of coordinates: {len(point_coordinates)}")
-    print("\n")
-    
-    ############
-    
-    
-    geom = o3d.geometry.PointCloud()
-    
-    geom.points = o3d.utility.Vector3dVector(point_coordinates)
-    geom.colors = o3d.utility.Vector3dVector(point_colors)
-    
-    o3d.visualization.draw(geom)
-    
-    
-    # Code below is the example provided in Open3d Doc -- Rendering a cube
-  
-    # cube_red = o3d.geometry.TriangleMesh.create_box(1, 2, 4)
-    # cube_red.compute_vertex_normals()
-    # cube_red.paint_uniform_color((1.0, 0.0, 0.0))
-    
-    # o3d.visualization.draw(cube_red)
+
+if __name__ == "__main__":
+    file_path = './static/files/' + sys.argv[1]
+    visualize_in_browser(file_path)
