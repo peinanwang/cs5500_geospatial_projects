@@ -4,7 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
 from markupsafe import escape
-from Visualize_in_browser.visualize_in_browser import visualize_in_browser
+# from Visualize_in_browser.visualize_in_browser import visualize_in_browser
 from pathlib import Path
 import time
 import os
@@ -13,7 +13,7 @@ import sys
 
 
 UPLOAD_FOLDER = '/path/to/the/uploads'
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'las'}
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'
@@ -39,7 +39,7 @@ def home():
         '''
         time.sleep(60)
         print(file.filename)
-        visualize_in_browser(file.filename)
+        # visualize_in_browser(file.filename)
             
                 
     return render_template('/index.html', form=form)
