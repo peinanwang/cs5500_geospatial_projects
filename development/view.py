@@ -3,13 +3,12 @@ from flask import Flask, render_template, flash, request, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
-from markupsafe import escape
-# from Visualize_in_browser.visualize_in_browser import visualize_in_browser
 from pathlib import Path
 import time
 import os
 import json
 import sys
+from subprocess import call
 
 
 UPLOAD_FOLDER = '/path/to/the/uploads'
@@ -23,26 +22,40 @@ class UploadFileForm(FlaskForm):
     file = FileField("File")
     submit = SubmitField("Submit")
 
-
 @app.route('/', methods=['GET', 'POST'])
-@app.route('/home', methods=['GET', 'POST'])
 def home():
     form = UploadFileForm()
     if form.validate_on_submit():
+        
+        # get the file data from frontend
         file = form.file.data
-        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
-        las_file = Path("/Users/peinanwang/CS5500_Project/cs5500_geospatial_projects/development/static/files/" + file.filename)
-        '''
-        while True:
-            if las_file.is_file():
-                break
-        '''
-        time.sleep(60)
-        print(file.filename)
-        # visualize_in_browser(file.filename)
-            
-                
+        
+        # save the file name as a global variable, since we need to use it outside of this function
+        global filename
+        filename = file.filename
+        
+        # save the file under static/files folder
+        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'], secure_filename(filename)))
+
+        # las_file = Path("/Users/peinanwang/CS5500_Project/cs5500_geospatial_projects/development/static/files/" + file.filename)
+        # 
+        # while True:
+        #     if las_file.is_file():
+        #         break
+        # 
+        # time.sleep(60)
+        
+        # print a notification to the terminal when the file is saved successfully
+        print("\nFile " + file.filename + " is submitted Successfully\n")
+                      
     return render_template('/index.html', form=form)
+
+
+@app.route("/visualize/", methods=['POST'])
+def visualize_data():
+    command = "python3 Visualize_in_browser/visualize_in_browser.py " +  filename
+    call(command, shell=True)
+
 
 '''
 @app.route('/', methods=['GET', 'POST'])
