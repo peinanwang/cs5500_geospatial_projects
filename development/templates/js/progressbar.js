@@ -8,9 +8,10 @@ function fileSelected() {
           fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
       document.getElementById('fileName').innerHTML = 'Name: ' + file.name;
       document.getElementById('fileSize').innerHTML = 'Size: ' + fileSize;
-      document.getElementById('fileType').innerHTML = 'Type: ' + file.type;
+      // document.getElementById('fileType').innerHTML = 'Type: ' + file.type;
   }
 }
+
 function uploadFile() {
   var fd = new FormData();
   fd.append("file", document.getElementById('file').files[0]);
@@ -19,28 +20,29 @@ function uploadFile() {
   xhr.addEventListener("load", uploadComplete, false);
   xhr.addEventListener("error", uploadFailed, false);
   xhr.addEventListener("abort", uploadCanceled, false);
-  xhr.open("POST", "${pageContext.request.contextPath }/upload");//修改成自己的接口
+  xhr.open("POST", "${ pageContext.request.contextPath }/upload");  // Change to our interface
   xhr.send(fd);
 }
 
 function uploadProgress(evt) {
   if (evt.lengthComputable) {
       var percent = Math.round(evt.loaded * 100 / evt.total);
-      
       document.getElementById('progress').innerHTML = percent.toFixed(2) + '%';
       document.getElementById('progress').style.width = percent.toFixed(2) + '%';
-  }
-  else {
+  } else {
       document.getElementById('progress').innerHTML = 'unable to compute';
   }
 }
+
 function uploadComplete(evt) {
-  /* 服务器端返回响应时候触发event事件*/
+  // Event triggered when server responses
   document.getElementById('result').innerHTML = evt.target.responseText;
 }
+
 function uploadFailed(evt) {
   alert("There was an error attempting to upload the file.");
 }
+
 function uploadCanceled(evt) {
-  alert("The upload has been canceled by the user or the browser dropped the connection.");
+  alert("The upload has been canceled by the user or the browser has lost connection.");
 }
