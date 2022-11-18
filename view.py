@@ -1,16 +1,15 @@
 
-from flask import Flask, render_template, flash, request, redirect, url_for
+from flask import Flask, render_template, request, url_for
 from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
-from pathlib import Path
-import time
 import os
-import json
-import sys
-from subprocess import call
+import subprocess
+from LAS_Processor import LAS_Processor
 
 
+# TO-DO: limit the file type to LAS format
+# TO-DO: limit the file size to 1.5 GB
 UPLOAD_FOLDER = '/path/to/the/uploads'
 ALLOWED_EXTENSIONS = {'las'}
 
@@ -22,88 +21,149 @@ class UploadFileForm(FlaskForm):
     file = FileField("File")
     submit = SubmitField("Submit")
 
+
+# A boolean variable to mark if rendering/visualization script is running
+rendering_in_progress = False
+
+@app.context_processor
+def handle_context():
+    return dict(os=os)
+
 @app.route('/', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET', 'POST'])
 def home():
+
+    global form 
+    global filename
+    global rendering_in_progress
+    filename = ""
+    
+    # TO-DO: everytime we refresh the homepage, the static files folder should be cleared
+    
+    # if visualization script is running, terminate the process
+    if rendering_in_progress:
+        subprocess.Popen.kill(process)
+        rendering_in_progress = False
+        
     form = UploadFileForm()
+    
+    # when the "Submit" button is clicked, save the selected file in the static/files folder
     if form.validate_on_submit():
         
         # get the file data from frontend
         file = form.file.data
         
         # save the file name as a global variable, since we need to use it outside of this function
-        global filename
         filename = file.filename
         
         # save the file under static/files folder
-        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'], secure_filename(filename)))
+        if (filename != ""):
+            file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'], secure_filename(filename)))
 
-        # las_file = Path("/Users/peinanwang/CS5500_Project/cs5500_geospatial_projects/development/static/files/" + file.filename)
-        # 
-        # while True:
-        #     if las_file.is_file():
-        #         break
-        # 
-        # time.sleep(60)
+    if filename == "":
+        # if no file is selected, render the homepage without any message
+        return render_template('/index.html', form=form)
+    else:
+        # send a notification to the terminal when the file is saved successfully
+        message = filename + " is submitted"
         
-        # print a notification to the terminal when the file is saved successfully
-        print("\nFile " + file.filename + " is submitted Successfully\n")
-                      
-    return render_template('/index.html', form=form)
+        return render_template('/index.html', 
+                               form=form, 
+                               message_after_uploading = message,
+                               filename = filename)
 
 
 @app.route("/visualize/", methods=['POST'])
 def visualize_data():
-    command = "python3 Visualize_in_browser/visualize_in_browser.py " +  filename
-    call(command, shell=True)
+    
+    global rendering_in_progress
+    global filename
+
+    message = ""
+    
+    if rendering_in_progress == True:
+        message = "Cannot start a new rendering process. Please click the 'Stop Visualization' button"
+    elif filename == "":
+        message = "Please upload a file"
+    else:
+        
+        message = "Visualization in progress"
+        
+        rendering_in_progress = True
+        
+        command = "python3 LAS_Processor.py " + filename
+        global process 
+        process = subprocess.Popen(command, shell=True)
+        
+        # Initailize a LAS_Processor object
+        # TO-DO: this process takes time. How can we track it and show it in progress bar?
+        file_path = './static/files/' + filename
+        las_processor = LAS_Processor(file_path)
+        las_processor.process() 
+        
+        # get the point statistics and return the point statistics to the frontend
+        point_stats = las_processor.get_point_statistics()
+        
+        # number of points for natural features
+        ground_num = point_stats[2]
+        low_veg_num = point_stats[3]
+        med_veg_num = point_stats[4]
+        high_veg_num = point_stats[5]
+        water_num = point_stats[9]
+        
+        # number of points classified as non-natural features
+        non_natural_num = point_stats[6] + point_stats[10] + point_stats[11]
+        + point_stats[13] + point_stats[14] + + point_stats[15] + point_stats[16] + point_stats[17]
+        
+        # total number of points
+        total = 0
+        for classification in point_stats:
+            total += point_stats[classification]
+
+        print("\nPoint calculation finished\n")
+ 
+        # wait until the image is generated and saved
+        while True:
+           if os.path.isfile("static/img.png"):
+               break
+    
+        return render_template('/index.html', 
+                           form=form, 
+                           visualization_start_message = message,
+                           filename = filename,
+                           ground_num = ground_num, 
+                           low_veg_num = low_veg_num, 
+                           med_veg_num = med_veg_num,
+                           high_veg_num = high_veg_num,
+                           water_num = water_num,
+                           non_natural_num = non_natural_num,
+                           ground_perc = "{:.1f}".format(ground_num / total * 100),
+                           low_veg_perc = "{:.1f}".format(low_veg_num / total * 100),
+                           med_veg_perc = "{:.1f}".format(med_veg_num / total * 100),
+                           high_veg_perc = "{:.1f}".format(high_veg_num / total * 100),
+                           water_perc = "{:.1f}".format(water_num / total * 100),
+                           non_natural_perc = "{:.1f}".format(non_natural_num / total * 100))
+    
+    return render_template('/index.html', 
+                            form=form, 
+                            visualization_start_message= message,
+                            filename = filename)
 
 
-'''
-@app.route('/', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        f = request.files['file']
-        f.save(secure_filename(f.filename))
-        return render_template('/index.html')
-'''
+@app.route("/stop_visualization/", methods=['POST'])
+def stop_visualization():
+    global rendering_in_progress
+    
+    message = "No visualization process is running"
+  
+    if rendering_in_progress == True:
+        subprocess.Popen.kill(process)
+        message = "Visualization terminated"
+        rendering_in_progress = False
+    return render_template('/index.html', form=form, visualization_stop_message = message)
 
 
-'''
-@app.route('/')
-def new_page():
-    return render_template('newpage.html')
-
-@app.route('/user/<username>')
-def show_user_profile(username):
-    # show the user profile for that user
-    return f'User {escape(username)}'
-
-@app.route('/post/<int:post_id>')
-def show_post(post_id):
-    # show the post with the given id, the id is an integer
-    return f'Post {post_id}'
-
-@app.route('/path/<path:subpath>')
-def show_subpath(subpath):
-    # show the subpath after /path/
-    return f'Subpath {escape(subpath)}'
-
-
-@app.route('/api/post/<int:post_id>', methods=['GET', 'POST'])
-def show_certain_post(post_id):
-    j_object = {"id":post_id,"content":"foo"}
-    return json.dumps(j_object)
-
-@app.errorhandler(404)
-def not_found(e):
-    return render_template("404.html")
-'''
-
-# This starts the flask app configured to listen on port 900
+# This starts the flask app configured to listen on port 5500
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5500))
     app.run(debug=True, host='0.0.0.0', port=port)
-
-
-# curl -X GET http://localhost:800/api/post/42
-# docker stop $(docker ps -a -q) && docker image build -t flask_docker . && docker run -p 5500:5500 -d flask_docker
-

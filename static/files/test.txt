@@ -1,0 +1,2 @@
+Placeholder file to make the static/files folder non-empty. 
+Otherwise we cannot add it to git repo

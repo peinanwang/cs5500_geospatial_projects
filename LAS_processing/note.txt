@@ -1,9 +1,0 @@
-Author: Peinan Wang
-
-This folder stores python script for LAS data processing. 
-The goal is to 
-1) read LAS files into one matrix (four column: X Y Z Classification)
-2) show the 3D view of the point cloud; only showing the selected class
-(e.g Low Vegetation, Height Vegetation, Lake)
-
-
