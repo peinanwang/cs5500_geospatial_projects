@@ -59,15 +59,18 @@ As a civil engineer, I want regional distribution and topographic maps to help m
 
 5. Click the "To see the rendering" link to see the visualization rendering. Users will be directed to localhost:8888 to see the open3d webrtc window. 
 
-6. Click the "Stop Current Visualization" button to terminate the running visualization scripts. 
+6. Click the "Stop Visualization" button to terminate the running visualization scripts. 
 
 Step 4) - 6) will be a "loop". We can click the "Visualize" button ONLY when there is NO visualization script running.
 
+<img width="1232" alt="Screen Shot 2022-11-17 at 11 58 53 AM" src="https://user-images.githubusercontent.com/105306727/202593863-3dd1ecbd-5b34-4a52-b507-1809cf6f297e.png">
 
-<img width="1137" alt="Screen Shot 2022-11-15 at 5 07 04 PM" src="https://user-images.githubusercontent.com/105306727/202061678-61d002cd-db3a-4371-acf7-4bd3d4b1fff6.png">
-<img width="1308" alt="Screen Shot 2022-11-08 at 5 37 28 PM" src="https://user-images.githubusercontent.com/105306727/202061726-53dae4c4-c021-47bd-a745-1fe2416b1b9c.png">
+<img width="1089" alt="Screen Shot 2022-11-17 at 11 59 35 AM" src="https://user-images.githubusercontent.com/105306727/202593880-59f3f7e7-a2ca-4dfc-a81d-581a94dc562f.png">
+<img width="1099" alt="Screen Shot 2022-11-17 at 12 40 27 PM" src="https://user-images.githubusercontent.com/105306727/202593892-9f6a8ba6-9584-46f2-87aa-4bb55b763620.png">
 
 
+
+<img width="1284" alt="Screen Shot 2022-11-17 at 12 41 08 PM" src="https://user-images.githubusercontent.com/105306727/202593926-f2250e77-fa32-4d6c-a78c-ba844ec2db47.png">
 
 
 
