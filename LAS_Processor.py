@@ -119,7 +119,15 @@ class LAS_Processor:
         
         return self.__point_stats
     
-
+    
+    '''
+    This function will save point cloud matrices into txt file for future use
+    '''
+    def save_point_cloud_matrices(self):
+        
+        return self.__point_cloud_matrices
+    
+    
     def output_image(self):
         
         # Initialze a Visualizer object
