@@ -137,16 +137,22 @@ class LAS_Processor:
         vis.update_renderer()
         
         # Save the image to a file
-        vis.capture_screen_image('./static/img.png')
-        print("Image saved to ./static/img.png")
+        vis.capture_screen_image('./static/images/img.png')
+        print("Image saved to ./static/images/img.png")
         
         # Close the window
         vis.destroy_window()
     
 
     def visualize(self):
-
+    
+        # webrtc_server.enable_webrtc() DOES NOT work on Apple M1/M2 chips
+        # When runnning view.py on M1/M2 macbooks or any other ARM devices, 
+        # please comment out the following line. 
+        # By doing so, the 3D rendering will be displayed in a seperated window
+        # instead of a web browser.
         o3d.visualization.webrtc_server.enable_webrtc()
+        
         o3d.visualization.draw(self.__geom_list)
 
 

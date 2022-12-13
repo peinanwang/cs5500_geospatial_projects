@@ -9,3 +9,5 @@ static/files/sample_data.las
 static/img.png
 .vscode
 __pycache__
+.python-version
+.venv
