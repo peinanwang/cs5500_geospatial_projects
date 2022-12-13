@@ -162,6 +162,17 @@ def stop_visualization():
         rendering_in_progress = False
     return render_template('/index.html', form=form, visualization_stop_message = message)
 
+@app.route("/projectintro")
+def projectintro():
+    return render_template('/projectintro.html')
+
+@app.route("/ourgroup")
+def ourgroup():
+    return render_template('/ourgroup.html')
+
+@app.route("/googlemap")
+def googlemap():
+    return render_template('/googlemap.html')
 
 # This starts the flask app configured to listen on port 5500
 if __name__ == "__main__":
