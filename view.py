@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
@@ -124,7 +124,7 @@ def visualize_data():
  
         # wait until the image is generated and saved
         while True:
-           if os.path.isfile("static/img.png"):
+           if os.path.isfile("static/images/img.png"):
                break
     
         return render_template('/index.html', 
