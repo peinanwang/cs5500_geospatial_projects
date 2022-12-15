@@ -1,5 +1,10 @@
 # Geospatial Data Visualization
 
+### Contributors
+Peinan Wang https://www.linkedin.com/in/patrick-peinan-wang-3809158a/
+Yuhao Hua https://www.linkedin.com/in/yuhao-glenn-hua-892377174/
+Luocheng Zhu
+
 ### Project Overview
 This is a project for Northeastern University's CS5500 - Foundations of Software Engineering. We are building a web application for to visualize point cloud data. Users can update point cloud data (limited to .las file format) and they will be able to see point cloud information and 3d renderings. 
 
