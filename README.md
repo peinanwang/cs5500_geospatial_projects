@@ -2,7 +2,9 @@
 
 ### Contributors
 Peinan Wang https://www.linkedin.com/in/patrick-peinan-wang-3809158a/
+
 Yuhao Hua https://www.linkedin.com/in/yuhao-glenn-hua-892377174/
+
 Luocheng Zhu
 
 ### Project Overview
