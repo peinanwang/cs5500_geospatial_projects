@@ -1,6 +1,7 @@
 import numpy as np
 import laspy
 import open3d as o3d
+import sys
 
 import constant_variables
 
@@ -54,12 +55,6 @@ def visualize_geometry(geom_list):
     o3d.visualization.draw_geometries(geom_list)
     
 
-def main():
-    filename = "sample_data.las"
-    # filename = "/Users/peinanwang/VancouverLAS/sample_data/downtownLAS/downtown.las"
-    # filename = "/Users/peinanwang/VancouverLAS/merge_file/out/park.las"
-    visualize_geometry(prepare_geometry(create_classification_matrices(readLas(filename))))
-
-
 if __name__ == "__main__":
-	main()
+    filename = sys.argv[1]
+    visualize_geometry(prepare_geometry(create_classification_matrices(readLas(filename))))
