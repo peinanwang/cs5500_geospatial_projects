@@ -38,8 +38,18 @@ def home():
     global rendering_in_progress
     filename = ""
     
-    # TO-DO: everytime we refresh the homepage, the static files folder should be cleared
+    # everytime we refresh the homepage, the static files folder should be cleared
+    dir_name = "/Users/ben/downloads/"
     
+    uploaded_files = os.listdir("static/files")
+
+    for item in uploaded_files:
+        if item.endswith(".las"):
+            os.remove(os.path.join("static/files", item))
+
+    if os.path.exists("static/images/img.png"):
+        os.remove("static/images/img.png")
+
     # if visualization script is running, terminate the process
     if rendering_in_progress:
         subprocess.Popen.kill(process)

@@ -16,7 +16,7 @@ try:
     print('Running Merge LAS')
 
     #This is the las file to append to.  
-    out_las = 'out/park.las'
+    out_las = 'out/merged.las'
     #this is a directory of las files
     inDir = 'original'
 

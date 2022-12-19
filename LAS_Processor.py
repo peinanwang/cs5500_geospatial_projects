@@ -161,7 +161,7 @@ class LAS_Processor:
         # instead of a web browser.
         o3d.visualization.webrtc_server.enable_webrtc()
         
-        o3d.visualization.draw(self.__geom_list)
+        o3d.visualization.draw(self.__geom_list, point_size=1, raw_mode=True)
 
 
 if __name__ == "__main__":
