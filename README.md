@@ -89,7 +89,7 @@ More <a href="#future-works">future works</a> are needed for <b>view.<span></spa
 
 5. Click the "View 3D Rendering" button to see the visualization rendering. Users will be directed to localhost:8888 to see the open3d webrtc window. 
 
-6. Click the "Stop Visualization" button to terminate the running visualization scripts. 
+6. Click the "Stop Visualization" button to terminate the running visualization scripts.
 
 Step 4) - 6) will be a "loop". We can click the "Visualize" button ONLY when there is NO visualization script running. Refreshing the web page will terminate the visualization script and clear the outputs. 
 
@@ -98,7 +98,7 @@ Step 4) - 6) will be a "loop". We can click the "Visualize" button ONLY when the
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Sample Results
-We used the LiDAR dataset of a neighbourhood in Surrey, BC (surveyed in 2013) as our sample data. The sample point cloud data can be found at <a href="https://www.surrey.ca/services-payments/online-services/open-data/bulk-data">Bulk Data - City of Surrey</a>. We have uploaded this sample data on the website (hosted locally) and produced the following results. For more details, please check out the Demo Video in our <a href="https://peinanwang.github.io/Geospatial_Project_Blog/index.html">Project Blog</a> 
+We used the LiDAR dataset of a neighborhood in Surrey, BC (surveyed in 2013) as our sample data. The sample point cloud data can be found at <a href="https://www.surrey.ca/services-payments/online-services/open-data/bulk-data">Bulk Data - City of Surrey</a>. We have uploaded this sample data on the website (hosted locally) and produced the following results. For more details, please check out the Demo Video in our <a href="https://peinanwang.github.io/Geospatial_Project_Blog/index.html">Project Blog</a> 
 
 <img width="1238" alt="visualized_result" src="https://user-images.githubusercontent.com/105306727/208507889-7ea6898b-404e-48a3-b066-6260a8142553.png">
 
@@ -109,20 +109,20 @@ We used the LiDAR dataset of a neighbourhood in Surrey, BC (surveyed in 2013) as
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Limitations
-1) Currently this tool can only process LAS file, and the point cloud data need to be pre-classified. For the best user experience, the file size should be under 250 MB. 
-2) Web visualization function is not supported on ARM device (e.g. M1/M2 Macbook). <a href="http://www.open3d.org/docs/release/tutorial/visualization/web_visualizer.html">(Reference)</a>
-3) We faced some technical difficulties when we tried to deploy the website (the Dockerfile in this repo is still imcomplete):
+1) Currently this tool can only process LAS files, and the point cloud data need to be pre-classified. For the best user experience, the file size should be under 250 MB. 
+2) Web visualization function is not supported on ARM devices (e.g. M1/M2 Macbook). <a href="http://www.open3d.org/docs/release/tutorial/visualization/web_visualizer.html">(Reference)</a>
+3) We faced some technical difficulties when we tried to deploy the website (the Dockerfile in this repo is still incomplete):
     - Open3D is not built properly in Dockerfile. Installing Open3D requires extra dependencies in Dockerfile. <a href="http://www.open3d.org/docs/release/docker.html">(Reference)</a>
-    - Currently functions in the <b>LAS_Processor.py</b> file does not work on headless server. We followed the instruction in Open3d 0.16.0 documentation but we were not able to reproduce the headless rendering function. <a href="http://www.open3d.org/docs/release/tutorial/visualization/headless_rendering.html">(Reference)</a>
-    - Web visualization (webrtc) may not work for external IP. (It is supposed to work but we have not tested it yet). <a href="http://www.open3d.org/docs/release/tutorial/visualization/web_visualizer.html">(Reference)</a>
+    - Currently functions in the <b>LAS_Processor.py</b> file do not work on a headless server. We followed the instruction in Open3d 0.16.0 documentation but we were not able to reproduce the headless rendering function. <a href="http://www.open3d.org/docs/release/tutorial/visualization/headless_rendering.html">(Reference)</a>
+    - Web visualization (webrtc_server) may not work for external IPs. (It is supposed to work but we have not tested it yet). <a href="http://www.open3d.org/docs/release/tutorial/visualization/web_visualizer.html">(Reference)</a>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Useful Python Scripts
-Since our web application is still a Proof of Concept pending deployment, one can only use our product on local devices with all dependencies and GPU graphic capacity. As a results, for research or demonstration purpose, it makes sense to just run some simple Python scripts. The <b>data_processing</b> folder includes Python programs to visualize a LAS file(<b>visualize_classification.<span></span>py</b>) and to merge multiple LAS files (<b>mergeLAS.<span></span>py</b>)
+Since our web application is still a Proof of Concept pending deployment, one can only use our product on local devices with all dependencies and GPU graphic capacity. As a result, for research or demonstration purposes, it makes sense to just run some simple Python scripts. The <b>data_processing</b> folder includes Python programs to visualize a LAS file(<b>visualize_classification.<span></span>py</b>) and to merge multiple LAS files (<b>mergeLAS.<span></span>py</b>)
 
 <img width="248" alt="Screenshot 2022-12-19 at 11 11 34 AM" src="https://user-images.githubusercontent.com/105306727/208508046-669cb62d-3a58-4b4e-9357-cb15ca719e53.png">
 
-City of Vancouver provided the LiDAR dataset of the entire city at its <a href="https://opendata.vancouver.ca/explore/dataset/lidar-2018/information/">Open Data Portal</a>. We have written python scripts (in <b>LAS_downloading</b> folder). Here are some locally-rendered results:
+City of Vancouver provided the LiDAR dataset of the entire city at its <a href="https://opendata.vancouver.ca/explore/dataset/lidar-2018/information/">Open Data Portal</a>. We have written python scripts (in the <b>LAS_downloading</b> folder). Here are some locally-rendered results:
 <img width="2473" alt="visualized_classification1" src="https://user-images.githubusercontent.com/105306727/208509981-507c4bd7-5a7b-458e-b421-6cdeed6f6e67.png">
 <img width="1364" alt="Screenshot 2022-12-19 at 12 03 42 PM" src="https://user-images.githubusercontent.com/105306727/208510524-140b78c5-180c-42bb-b91e-58ffe1d0bbf8.png">
 
@@ -130,7 +130,7 @@ City of Vancouver provided the LiDAR dataset of the entire city at its <a href="
 
 ## Getting Started
 ### Prerequisite
-We are using Open3D 0.16.0, which only supports Python 3.10 and above. This project is developed in a Python 3.10.8 virtual environment. Since Open3D is the only limiting factor for the minimum environment requirements, we recommend checking Open3D's official <a href="http://www.open3d.org/docs/release/getting_started.html">documentation</a> for more information. You may need to install some additional dependencies in order for Open3D to work properly. 
+We are using Open3D 0.16.0, which only supports Python 3.10 and above. This project is developed in a Python 3.10.8 virtual environment. Since Open3D is the only limiting factor for the minimum environment requirements, we recommend checking Open3D's official <a href="http://www.open3d.org/docs/release/getting_started.html">documentation</a> for more information. You may need to install some additional dependencies for Open3D to work properly. 
 ### Installation
 All Python modules required for this project are included in the requirements.txt. We recommend running the following command in a virtual environment. 
 
@@ -138,13 +138,13 @@ All Python modules required for this project are included in the requirements.tx
   pip install -r requirements.txt
 ```
 ## Future Works
-The following furture work need to be fone. This project has been <a href="https://github.com/peinanwang/cs5500_geospatial_projects">forked</a>. Continuous contributions and improvements will be made in 2023. 
+The following future works need to be done. This project has been <a href="https://github.com/peinanwang/cs5500_geospatial_projects">forked</a>. Continuous contributions and improvements will be made in 2023. 
 
 <b>Frontend Features</b>
 
-- [ ] Add a progress bar for the file uploading process
+- [ ] Add a progress bar for the file-uploading process
 - [ ] Add a progress bar for the visualization process
-- [ ] Add log-in function to support user registration
+- [ ] Add a log-in function to support user registration
 
 <b>Website Deployment</b>
 - [ ] Solve the headless rendering issue of Open3D
@@ -152,7 +152,7 @@ The following furture work need to be fone. This project has been <a href="https
 - [ ] Deploy the website on a headless server
 - [ ] Ensure the Web Visualizer works
 
-<b>Basckend</b>
+<b>Backend</b>
 - [ ] Improve the rendering speed (e.g. ignore some points)
 
 <b>Extended Functionalities</b>
