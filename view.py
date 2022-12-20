@@ -39,8 +39,6 @@ def home():
     filename = ""
     
     # everytime we refresh the homepage, the static files folder should be cleared
-    dir_name = "/Users/ben/downloads/"
-    
     uploaded_files = os.listdir("static/files")
 
     for item in uploaded_files:
