@@ -2,7 +2,7 @@
 [![Contributors][contributors-shield]][contributors-url] [![Forks][forks-shield]][fork-url]
 
 
-#Visualizations of Citywide LiDAR Dataset Using Open3D
+# Visualizations of Citywide LiDAR Dataset Using Open3D
 
 <!-- TABLE OF CONTENTS -->
 <details>
